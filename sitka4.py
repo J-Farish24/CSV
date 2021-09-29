@@ -2,16 +2,22 @@ import csv
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-open_file = open("sitka_weather_2018_simple.csv", "r")
+open_file = open("death_valley_2018_simple.csv", "r")
 
 csv_file = csv.reader(open_file, delimiter=",")
 
 header_row = next(csv_file)
 
-# print(type(header_row))
+print(type(header_row))
 
-# for index, column_header in enumerate(header_row):
-# print(index, column_header)
+for index, column_header in enumerate(header_row):
+    print(index, column_header)
+    if column_header == "TMAX":
+        high_index = index
+    elif column_header == "TMIN":
+        low_index = index
+    elif column_header == "DATE":
+        date_index = index
 
 highs = []
 lows = []
@@ -23,17 +29,23 @@ dates = []
 # print(type(mydate))
 
 for rec in csv_file:
-    highs.append(int(rec[5]))
-    lows.append(int(rec[6]))
-    date = datetime.strptime(rec[2], "%Y-%m-%d")
-    dates.append(date)
+    try:
+        date = datetime.strptime(rec[date_index], "%Y-%m-%d")
+        high = int(rec[high_index])
+        low = int(rec[low_index])
+    except ValueError:
+        print(f"Missing data for {date}")
+    else:
+        highs.append(high)
+        lows.append(low)
+        dates.append(date)
 
 # print(highs)
 # print(dates)
 
 fig = plt.figure()
 
-plt.title("Daily High Temperatures, Year 2018", fontsize=16)
+plt.title("Daily Highs amd Lows Temperature - 2018\nDeath Valley", fontsize=16)
 plt.xlabel("", fontsize=12)
 plt.ylabel("Temperature (F)", fontsize=12)
 plt.tick_params(axis="both", labelsize=12)
@@ -54,6 +66,6 @@ plt.subplot(2, 1, 2)
 plt.plot(dates, lows, c="blue")
 plt.title("Lows")
 
-plt.suptitle("Highs and Lows of Skitka, Alaska")
+plt.suptitle("Highs and Lows of Death Valley, Arizona")
 
 plt.show()

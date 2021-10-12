@@ -10,7 +10,6 @@ csv_file_1 = csv.reader(open_file, delimiter=",")
 header_row = next(csv_file_1)
 #Get indexes for values
 for index, column_header in enumerate(header_row):
-    print(index, column_header)
     if column_header == "TMAX":
         high_index_1 = index
     elif column_header == "TMIN":
@@ -47,7 +46,6 @@ csv_file_2 = csv.reader(open_file, delimiter=",")
 header_row = next(csv_file_2)
 #Get indexes for values
 for index, column_header in enumerate(header_row):
-    print(index, column_header)
     if column_header == "TMAX":
         high_index_2 = index
     elif column_header == "TMIN":
@@ -91,6 +89,6 @@ plt.plot(dates_2, lows_2, c="blue")
 plt.fill_between(dates_2, highs_2, lows_2, facecolor = "blue", alpha = 0.1)
 plt.title(graph_title_2)
 
-plt.suptitle("Temperature comparison between SITKA AIRPORT, AK US and DEATH VALLEY, CA US")
+plt.suptitle(f"Temperature comparison between {graph_title_1} and {graph_title_2}")
 
 plt.show()
